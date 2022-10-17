@@ -3,6 +3,8 @@ import { AppDispatch, GetState } from "../../app/store";
 import { createMachine, interpret, State, StateMachine } from "xstate";
 import { setCount, setIsEnabled } from "./countSlice";
 import { store } from "../../app/store";
+import { createCompoundComponent } from "./switchboard";
+import ToggleMachine from "./ToggleMachine";
 const { dispatch, getState } = store;
 
 let countMachine = createMachine({
@@ -32,6 +34,26 @@ let countMachine = createMachine({
         },
       },
     },
+  },
+});
+
+let counter = () => () => {};
+
+const AppSwitchboard = createCompoundComponent({
+  id: "app",
+  components: [
+    { id: "counter", src: counter },
+    { id: "enabler", src: ToggleMachine },
+  ],
+  makeWires: (ctx, event) => {
+    return {
+      // '' = external event
+      "": {
+        INCREMENT: { target: "view" },
+        DISABLE: { target: "enabler", type: "TOGGLE" },
+        ENABLE: { target: "enabler", type: "TOGGLE" },
+      },
+    };
   },
 });
 

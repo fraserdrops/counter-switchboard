@@ -9,6 +9,7 @@ export const createSwitchboard = (
   ) => Record<string, Record<string, { target: string; type?: string; args?: {} }>>
 ) =>
   pure((ctx, event: { type: string; origin?: string }) => {
+    console.log("EVENT YO");
     const wires = makeWires(ctx, event);
     const { origin = "" } = event;
     const {

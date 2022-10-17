@@ -11,6 +11,7 @@ interface Counter {
 const initialState: Counter = {
   count: 0,
   enabled: false,
+  alarm: false,
 };
 
 const counter = createSlice({
@@ -23,9 +24,12 @@ const counter = createSlice({
     setIsEnabled: (state, action: PayloadAction<boolean>) => {
       return { ...state, enabled: action.payload };
     },
+    setAlarm: (state, action: PayloadAction<boolean>) => {
+      return { ...state, alarm: action.payload };
+    },
   },
 });
 
-export const { setCount, setIsEnabled } = counter.actions;
+export const { setCount, setIsEnabled, setAlarm } = counter.actions;
 
 export default counter.reducer;

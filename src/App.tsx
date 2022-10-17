@@ -11,7 +11,7 @@ import { handleKeyPress } from "./features/game/gameSlice";
 import { closeDialog, openDialogOnAppLoad, setOpenDialog } from "./features/view/viewSlice";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { red, blue } from "@mui/material/colors";
-import { useCountSend } from "./features/counter/countMachine";
+import { selectors, useCountSend } from "./features/counter/countMachineSplit";
 import { setIsEnabled } from "./features/counter/countSlice";
 
 function App() {
@@ -58,7 +58,8 @@ function App() {
     dispatch(openDialogOnAppLoad());
   }, []);
 
-  const { count, enabled } = useAppSelector((state) => state.counterState);
+  const count = useAppSelector(selectors.count);
+  const enabled = useAppSelector(selectors.enabled);
   const countSend = useCountSend();
 
   return (
@@ -75,6 +76,8 @@ function App() {
       <button disabled={enabled} onClick={() => dispatch(setIsEnabled(true))}>
         Redux enable
       </button>
+      <button onClick={() => countSend({ type: "START_ALARM" })}>Set Alarm</button>
+      <button onClick={() => countSend({ type: "STOP_ALARM" })}>Stop Alarm</button>
 
       <div className="App">
         <HeaderBar {...{ handleOpenDialog }} />

@@ -14,11 +14,13 @@ const ToggleMachine = createMachine(
       on: {
         on: {
           TOGGLE: "off",
+          actions: [() => console.log("YOZZA")],
         },
       },
       off: {
         on: {
           TOGGLE: "on",
+          actions: [() => console.log("YOZZA")],
         },
       },
     },
